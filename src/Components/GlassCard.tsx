@@ -1,10 +1,11 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-const GlassCard = () => {
+const GlassCard = (props: { no_katakyrwsi: string }) => {
+  console.log(props);
+
   return (
     <button className="glass-card h-max w-full p-4 mt-4 text-white">
-      <p className="font-extrabold">1.233.222,00 €</p>
+      <p className="font-extrabold">{props.no_katakyrwsi}</p>
       <p className="text-xs ">
         <span className="font-extralight">Αρχ.Τιμή: </span>
         <span className="font-bold">900.000,00 €</span>
@@ -28,7 +29,5 @@ const GlassCard = () => {
     </button>
   );
 };
-
-GlassCard.propTypes = {};
 
 export default GlassCard;
