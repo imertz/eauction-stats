@@ -2,12 +2,47 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + React + TS</title>
+    <meta
+      name="description"
+      content="Στατιστικά του eauction.gr. Αναζητήστε πληροφορίες για πλειστηριασμούς που ολοκληρώθηκαν με κατακύρωση, ανά περιφέρεια, δήμο και είδος ακινήτου."
+    />
+    <title>Eauction Stats by MySolon.gr</title>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="./images/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="./images/favicon-16x16.png"
+    />
   </head>
-  <body class="my-custom-style h-max">
+  <body class="my-custom-style min-h-screen">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <!-- Put this at the end of the <body> tag -->
+    <script src="https://swetrix.org/swetrix.js" defer></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        swetrix.init("kdR56mzQB5Qk");
+        swetrix.trackViews();
+      });
+    </script>
+    <noscript>
+      <img
+        src="https://api.swetrix.com/log/noscript?pid=kdR56mzQB5Qk"
+        alt=""
+        referrerpolicy="no-referrer-when-downgrade"
+      />
+    </noscript>
   </body>
 </html>
