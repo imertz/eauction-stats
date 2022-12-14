@@ -1,7 +1,7 @@
 import React from "react";
 import GlassCard from "./Components/GlassCard";
 // import Turnstone from "turnstone";
-import out from "./out.json";
+// import out from "./out.json";
 
 // const styles = {
 //   input: "border p-2 bg-white w-full",
@@ -22,6 +22,7 @@ import out from "./out.json";
 export default function App() {
   return (
     <div className="p-3">
+      <p>HI</p>
       <GlassCard />
       <GlassCard />
       <GlassCard />
