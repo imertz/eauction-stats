@@ -29,32 +29,6 @@ const db = create({
 
 insertBatch(db, out as any, { batchSize: 1000, language: "greek" });
 
-// const uniqueEidos = out
-//   .map((r) => r.eidos)
-//   .filter((v, i, a) => a.indexOf(v) === i);
-
-// console.log(uniqueEidos);
-// // Set up listbox contents.
-// const listbox = {
-//   data: uniqueEidos,
-//   searchType: "startswith",
-// };
-// let miniSearch = new MiniSearch({
-//   fields: ["xaraktiristika"], // fields to index for full-text search
-//   // fields to return with search results
-//   storeFields: ["eidos", "no_katakyrwsi", "xaraktiristika"],
-//   extractField: (document, fieldName) => {
-//     // If field name is 'pubYear', extract just the year from 'pubDate'
-//     if (fieldName === "xaraktiristika") {
-//       const pubDate = document["xaraktiristika"];
-//       return pubDate && pubDate.split(" - ")[2];
-//     }
-
-//     // Access nested fields
-//     return fieldName.split(".").reduce((doc, key) => doc && doc[key], document);
-//   },
-// });
-// miniSearch.addAll(out);
 function cmp(a: number | string, b: number | string) {
   if (a > b) return +1;
   if (a < b) return -1;
@@ -141,11 +115,16 @@ export default function App() {
   const handleSelect = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
-    console.log(event.target.value);
     setSelected(event.target.value);
   };
   return (
     <div className="container mx-auto px-4 py-2 ">
+      <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
+        Αναζητήστε ανάμεσα σε{" "}
+        <span className="text-blue-600 dark:text-blue-500">{out.length}</span>{" "}
+        ολοκληρωμένους πλειστηριασμούς.
+      </h1>
+
       <input
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         type="text"
@@ -168,29 +147,30 @@ export default function App() {
           ))}
         </select>
       </div>
-
-      {!!results.length &&
-        results.map(
-          (
-            r: {
-              no_katakyrwsi: number;
-              no_prwti: number;
-              xaraktiristika: string;
-              imnia: string;
-              link: string;
-            },
-            i: number
-          ) => (
-            <GlassCard
-              key={i}
-              no_katakyrwsi={r.no_katakyrwsi}
-              no_prwti={r.no_prwti}
-              xaraktiristika={r.xaraktiristika}
-              imnia={r.imnia}
-              link={r.link}
-            />
-          )
-        )}
+      <section className="results">
+        {!!results.length &&
+          results.map(
+            (
+              r: {
+                no_katakyrwsi: number;
+                no_prwti: number;
+                xaraktiristika: string;
+                imnia: string;
+                link: string;
+              },
+              i: number
+            ) => (
+              <GlassCard
+                key={i}
+                no_katakyrwsi={r.no_katakyrwsi}
+                no_prwti={r.no_prwti}
+                xaraktiristika={r.xaraktiristika}
+                imnia={r.imnia}
+                link={r.link}
+              />
+            )
+          )}
+      </section>
     </div>
   );
 }
