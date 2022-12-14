@@ -1,12 +1,13 @@
 import React from "react";
 import GlassCard from "./Components/GlassCard";
 // import Turnstone from "turnstone";
-// import out from "./out.json";
+import out from "./out.json";
 
 // const styles = {
 //   input: "border p-2 bg-white w-full",
 //   listbox: "border p-2 bg-white w-full",
 // };
+console.log(out.slice(0, 10));
 
 // const uniqueEidos = out
 //   .map((r) => r.eidos)
