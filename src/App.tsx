@@ -200,7 +200,7 @@ export default function App() {
       )}
       <section className="results">
         {!!results.length &&
-          results.slice(0, 10).map(
+          results.map(
             (
               r: {
                 no_katakyrwsi: number;
