@@ -6,11 +6,31 @@ const GlassCard = (props: {
   imnia: string;
   no_prwti: number;
   link: string;
+  q: string;
 }) => {
+  const handleClick = async () => {
+    window.open(props.link, "_blank");
+
+    try {
+      await fetch("https://api.mysolon.gr", {
+        method: "POST",
+        body: JSON.stringify({
+          q: props.q,
+          l: props.link.split("/").at(-1),
+          s: sessionStorage.getItem("uuid"),
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <button
       className="glass-card h-max w-full p-4 mt-4 text-white"
-      onClick={(event) => window.open(props.link, "_blank")}
+      onClick={handleClick}
     >
       <p className="font-extrabold">
         {new Intl.NumberFormat("de-DE", {

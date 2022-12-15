@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import GlassCard from "./Components/GlassCard";
 import { create, insertBatch, search } from "@lyrasearch/lyra";
 import { stemmer } from "@lyrasearch/lyra/dist/esm/stemmer/lib/gr";
-
+import { useDebounce } from "use-debounce";
 // import Turnstone from "turnstone";
 import out from "./out.json";
 
@@ -44,11 +44,19 @@ function convertDateString(dateString: string) {
 
 export default function App() {
   const [searchTerm, setSearchTerm] = React.useState("");
+  const [tm, setTm] = React.useState(0);
+  const [debouncedText] = useDebounce(searchTerm, 1000);
+
+  // const [latestSearchTerm, setLatestSearchTerm] = React.useState("");
+
   const [results, setResults] = React.useState([] as any);
+
   const handleChange = (event: { target: { value: any } }) => {
     // 👇 Get input value from "event"
     setSearchTerm(event.target.value);
+    setTm(Date.now());
   };
+
   const options = [
     { value: "", text: "Επιλέξτε τρόπο ταξινόμησης" },
     { value: "apple", text: "Φθίνουσα Ημερομηνία" },
@@ -57,6 +65,39 @@ export default function App() {
     { value: "orange", text: "Αύξουσα Τιμή Κατακύρωσης" },
   ];
   const [selected, setSelected] = useState(options[0].value);
+
+  useEffect(() => {
+    // Access initial value from session storage
+    let uuid = sessionStorage.getItem("uuid");
+    if (uuid == null) {
+      // Initialize page views count
+      sessionStorage.setItem("uuid", self.crypto.randomUUID());
+    }
+    // Update session storage
+  }, []);
+
+  useEffect(() => {
+    async function postData() {
+      if (debouncedText.length > 2) {
+        try {
+          await fetch("https://api.mysolon.gr", {
+            method: "POST",
+            body: JSON.stringify({
+              q: debouncedText,
+              l: "",
+              s: sessionStorage.getItem("uuid"),
+            }),
+            headers: {
+              "Content-type": "application/json; charset=UTF-8",
+            },
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    }
+    postData();
+  }, [debouncedText]);
 
   useEffect(() => {
     if (searchTerm.length > 1) {
@@ -134,6 +175,7 @@ export default function App() {
         autoFocus
         placeholder="π.χ. κατοικια κηφισια, οικοπεδο αιγαιο, νεα σμυρνη κτλ"
       />
+
       <div className="max-w-xs pt-2">
         <select
           value={selected}
@@ -147,6 +189,9 @@ export default function App() {
           ))}
         </select>
       </div>
+      <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
+        Τελευταία ενημέρωση: 15.12.2022, 16:48
+      </p>
       <section className="results">
         {!!results.length &&
           results.map(
@@ -167,6 +212,7 @@ export default function App() {
                 xaraktiristika={r.xaraktiristika}
                 imnia={r.imnia}
                 link={r.link}
+                q={searchTerm}
               />
             )
           )}
