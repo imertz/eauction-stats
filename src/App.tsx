@@ -44,7 +44,8 @@ function convertDateString(dateString: string) {
 
 export default function App() {
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [tm, setTm] = React.useState(0);
+  const [count, setCount] = React.useState(0);
+
   const [debouncedText] = useDebounce(searchTerm, 1000);
 
   // const [latestSearchTerm, setLatestSearchTerm] = React.useState("");
@@ -54,7 +55,6 @@ export default function App() {
   const handleChange = (event: { target: { value: any } }) => {
     // 👇 Get input value from "event"
     setSearchTerm(event.target.value);
-    setTm(Date.now());
   };
 
   const options = [
@@ -104,8 +104,9 @@ export default function App() {
       const res = search(db, {
         term: searchTerm,
         properties: ["xaraktiristika"],
-        limit: 100,
+        limit: 1000,
       });
+      setCount(res.count);
       // console.log(res);
       if (selected === "banana") {
         setResults(
@@ -192,9 +193,14 @@ export default function App() {
       <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
         Τελευταία ενημέρωση: 15.12.2022, 16:48
       </p>
+      {count > 0 && (
+        <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2 text-center">
+          Βρέθηκαν {count} πλειστηριασμοί
+        </p>
+      )}
       <section className="results">
         {!!results.length &&
-          results.map(
+          results.slice(0, 10).map(
             (
               r: {
                 no_katakyrwsi: number;
