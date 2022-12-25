@@ -73,6 +73,17 @@ export default function App() {
       // Initialize page views count
       sessionStorage.setItem("uuid", self.crypto.randomUUID());
     }
+    setTimeout(() => {
+      setSearchTerm(
+        decodeURI(window.location.pathname)
+          .replaceAll("/", " ")
+          .replaceAll("-", " ")
+          .trim()
+      );
+    }, 800);
+
+    setSelected("apple");
+
     // Update session storage
   }, []);
 
@@ -173,6 +184,7 @@ export default function App() {
         id="message"
         name="message"
         onChange={handleChange}
+        defaultValue={searchTerm}
         autoFocus
         placeholder="π.χ. κατοικια κηφισια, οικοπεδο αιγαιο, νεα σμυρνη κτλ"
       />
@@ -191,7 +203,7 @@ export default function App() {
         </select>
       </div>
       <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
-        Τελευταία ενημέρωση: 15.12.2022, 16:48
+        Τελευταία ενημέρωση: 22.12.2022, 20:45
       </p>
       {count > 0 && (
         <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2 text-center">
@@ -200,7 +212,7 @@ export default function App() {
       )}
       <section className="results">
         {!!results.length &&
-          results.map(
+          results.slice(0, 50).map(
             (
               r: {
                 no_katakyrwsi: number;
