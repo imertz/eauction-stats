@@ -12,13 +12,9 @@ import out from "./out.json";
 // };
 const db = create({
   schema: {
-    id: "number",
-    no_katakyrwsi: "number",
-    no_prwti: "number",
-    eidos: "string",
     xaraktiristika: "string",
     imnia: "string",
-    link: "string",
+    no_katakyrwsi: "number",
   },
 
   defaultLanguage: "greek",
@@ -67,6 +63,11 @@ export default function App() {
   const [selected, setSelected] = useState(options[0].value);
 
   useEffect(() => {
+    document.title = `Δ. ${decodeURI(window.location.pathname)
+      .replaceAll("/", " ")
+      .replaceAll("-", " ")
+      .trim()} - Ολοκληρωμένοι Πλειστηριασμοί`;
+
     // Access initial value from session storage
     let uuid = sessionStorage.getItem("uuid");
     if (uuid == null) {
@@ -156,6 +157,7 @@ export default function App() {
         setResults(
           res.hits
             .sort(function (a, b) {
+              // @ts-ignore
               return cmp(a.document.no_katakyrwsi, b.document.no_katakyrwsi);
             })
             .map((r) => r.document)

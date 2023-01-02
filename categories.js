@@ -3,7 +3,8 @@ import xmlbuilder from 'xmlbuilder';
 // Read the JSON file
 let jsonString = fs.readFileSync('./src/out.json');
 function removeDiacritics(str) {
-  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  // return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+  return str
 }
 
 
