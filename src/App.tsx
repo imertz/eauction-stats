@@ -1,33 +1,44 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import GlassCard from "./Components/GlassCard";
 import { create, insertBatch, search } from "@lyrasearch/lyra";
 import { stemmer } from "@lyrasearch/lyra/dist/esm/stemmer/lib/gr";
 import { useDebounce } from "use-debounce";
+import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
+import onomata from "./arrayOfObjects.json";
+import dataCount from './dataCount.json'
+import Footer from "./Components/Footer"
+const createWorker = createWorkerFactory(() => import("./lyra"));
+
+const dateTimeAthens = (datetime: string) => {
+  const date = new Date(datetime + "Z");
+
+  return date.toLocaleString("el-GR", {
+    timeZone: "Europe/Athens",
+    hour12: false,
+  });
+};
+
 // import Turnstone from "turnstone";
-import out from "./out.json";
+// import out from "./out.json";
 
 // const styles = {
 //   input: "border p-2 bg-white w-full",
 //   listbox: "border p-2 bg-white w-full",
 // };
-const db = create({
-  schema: {
-    id: "number",
-    no_katakyrwsi: "number",
-    no_prwti: "number",
-    eidos: "string",
-    xaraktiristika: "string",
-    imnia: "string",
-    link: "string",
-  },
+// const db = create({
+//   schema: {
+//     xaraktiristika: "string",
+//     imnia: "string",
+//     no_katakyrwsi: "number",
+//   },
 
-  defaultLanguage: "greek",
-  tokenizer: {
-    stemmingFn: stemmer,
-  },
-});
+//   defaultLanguage: "greek",
+//   tokenizer: {
+//     stemmingFn: stemmer,
+//   },
+// });
 
-insertBatch(db, out as any, { batchSize: 1000, language: "greek" });
+// insertBatch(db, out as any, { batchSize: 1000, language: "greek" });
 
 function cmp(a: number | string, b: number | string) {
   if (a > b) return +1;
@@ -43,8 +54,10 @@ function convertDateString(dateString: string) {
 }
 
 export default function App() {
+  const worker = useWorker(createWorker);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [count, setCount] = React.useState(0);
+  const [data, setData] = React.useState([] as any);
 
   const [debouncedText] = useDebounce(searchTerm, 1000);
 
@@ -67,29 +80,35 @@ export default function App() {
   const [selected, setSelected] = useState(options[0].value);
 
   useEffect(() => {
+    const dimosDash = decodeURI(window.location.pathname).split("/").pop();
+
+    const dimos = decodeURI(window.location.pathname)
+      .replaceAll("/", " ")
+      .replaceAll("-", " ")
+      .trim();
+    const onomastiki = onomata.find((o) => o.geniki === dimos);
+
+    if (onomastiki !== undefined) {
+      import(`./data/${dimosDash}/index.json`).then((math) => {
+        setData(math.default);
+        document.title = `${onomastiki.onomastiki} - Πλειστηριασμοί για ${math.default.length} ακίνητα - Οι τιμές που πωλήθηκαν.`;
+
+      });
+
+    }
+
     // Access initial value from session storage
     let uuid = sessionStorage.getItem("uuid");
     if (uuid == null) {
       // Initialize page views count
       sessionStorage.setItem("uuid", self.crypto.randomUUID());
     }
-    setTimeout(() => {
-      setSearchTerm(
-        decodeURI(window.location.pathname)
-          .replaceAll("/", " ")
-          .replaceAll("-", " ")
-          .trim()
-      );
-    }, 800);
-
-    setSelected("apple");
-
     // Update session storage
   }, []);
 
   useEffect(() => {
     async function postData() {
-      if (debouncedText.length > 2) {
+      if (debouncedText.length > 0) {
         try {
           await fetch("https://api.mysolon.gr", {
             method: "POST",
@@ -111,70 +130,135 @@ export default function App() {
   }, [debouncedText]);
 
   useEffect(() => {
-    if (searchTerm.length > 1) {
-      const res = search(db, {
-        term: searchTerm,
-        properties: ["xaraktiristika"],
-        limit: 1000,
-      });
-      setCount(res.count);
-      // console.log(res);
-      if (selected === "banana") {
-        setResults(
-          res.hits
-            .sort(function (a, b) {
-              return cmp(
-                convertDateString(a.document.imnia),
-                convertDateString(b.document.imnia)
-              );
-            })
-            .map((r) => r.document)
-        );
-      }
-      if (selected === "apple") {
-        setResults(
-          res.hits
-            .sort(function (b, a) {
-              return cmp(
-                convertDateString(a.document.imnia),
-                convertDateString(b.document.imnia)
-              );
-            })
-            .map((r) => r.document)
-        );
-      }
-      if (selected === "kiwi") {
-        setResults(
-          res.hits
-            .sort(function (b, a) {
-              return cmp(a.document.no_katakyrwsi, b.document.no_katakyrwsi);
-            })
-            .map((r) => r.document)
-        );
-      }
-      if (selected === "orange") {
-        setResults(
-          res.hits
-            .sort(function (a, b) {
-              return cmp(a.document.no_katakyrwsi, b.document.no_katakyrwsi);
-            })
-            .map((r) => r.document)
-        );
+    const lyraWorkerRun = async () => {
+      if (searchTerm.length > 1) {
+        const res = await worker.hello(searchTerm);
+        setCount(res.count);
+        // console.log(res);
+        if (selected === "banana") {
+          setResults(
+            res.hits
+              .sort(function (
+                a: { document: { imnia: string } },
+                b: { document: { imnia: string } }
+              ) {
+                return cmp(
+                  convertDateString(a.document.imnia),
+                  convertDateString(b.document.imnia)
+                );
+              })
+              .map((r: { document: any }) => r.document)
+          );
+        }
+        if (selected === "apple") {
+          setResults(
+            res.hits
+              .sort(function (
+                b: { document: { imnia: string } },
+                a: { document: { imnia: string } }
+              ) {
+                return cmp(
+                  convertDateString(a.document.imnia),
+                  convertDateString(b.document.imnia)
+                );
+              })
+              .map((r: { document: any }) => r.document)
+          );
+        }
+        if (selected === "kiwi") {
+          setResults(
+            res.hits
+              .sort(function (
+                b: { document: { no_katakyrwsi: string | number } },
+                a: { document: { no_katakyrwsi: string | number } }
+              ) {
+                return cmp(a.document.no_katakyrwsi, b.document.no_katakyrwsi);
+              })
+              .map((r: { document: any }) => r.document)
+          );
+        }
+        if (selected === "orange") {
+          setResults(
+            res.hits
+              .sort(function (
+                a: { document: { no_katakyrwsi: string | number } },
+                b: { document: { no_katakyrwsi: string | number } }
+              ) {
+                // @ts-ignore
+                return cmp(a.document.no_katakyrwsi, b.document.no_katakyrwsi);
+              })
+              .map((r: { document: any }) => r.document)
+          );
+        } else {
+          setResults(res.hits.map((r: { document: any }) => r.document));
+        }
       } else {
-        setResults(res.hits.map((r) => r.document));
+        if (selected === "banana") {
+          setData(
+            data
+              .sort(function (a: { imnia: string }, b: { imnia: string }) {
+                return cmp(
+                  convertDateString(a.imnia),
+                  convertDateString(b.imnia)
+                );
+              })
+              .map((r: any) => r)
+          );
+        }
+        if (selected === "apple") {
+          setData(
+            data
+              .sort(function (b: { imnia: string }, a: { imnia: string }) {
+                return cmp(
+                  convertDateString(a.imnia),
+                  convertDateString(b.imnia)
+                );
+              })
+              .map((r: any) => r)
+          );
+        }
+        if (selected === "kiwi") {
+          setData(
+            data
+              .sort(function (
+                b: { no_katakyrwsi: string | number },
+                a: { no_katakyrwsi: string | number }
+              ) {
+                return cmp(a.no_katakyrwsi, b.no_katakyrwsi);
+              })
+              .map((r: any) => r)
+          );
+        }
+        if (selected === "orange") {
+          setData(
+            data
+              .sort(function (
+                a: { no_katakyrwsi: string | number },
+                b: { no_katakyrwsi: string | number }
+              ) {
+                // @ts-ignore
+                return cmp(a.no_katakyrwsi, b.no_katakyrwsi);
+              })
+              .map((r: any) => r)
+          );
+        }
       }
-    }
+    };
+    console.log(selected);
+
+    lyraWorkerRun();
   }, [searchTerm, selected]);
   const handleSelect = (event: {
     target: { value: React.SetStateAction<string> };
   }) => {
     setSelected(event.target.value);
   };
+  const display = !!results.length ? results : data;
   return (
     <div className="container mx-auto px-4 py-2 ">
       <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
         Αναζητήστε ανάμεσα σε{" "}
-        <span className="text-blue-600 dark:text-blue-500">{out.length}</span>{" "}
+        <span className="text-blue-600 dark:text-blue-500">{dataCount[0].count}</span>{" "}
         ολοκληρωμένους πλειστηριασμούς.
       </h1>
 
@@ -203,16 +287,16 @@ export default function App() {
         </select>
       </div>
       <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
-        Τελευταία ενημέρωση: 22.12.2022, 20:45
+        Τελευταία ενημέρωση: {dateTimeAthens(dataCount[0].date)}
       </p>
-      {count > 0 && (
+      {display.length > 0 && (
         <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2 text-center">
-          Βρέθηκαν {count} πλειστηριασμοί
+          Βρέθηκαν {display.length} πλειστηριασμοί
         </p>
       )}
       <section className="results">
-        {!!results.length &&
-          results.slice(0, 50).map(
+        {!!display.length &&
+          display.slice(0, 50).map(
             (
               r: {
                 no_katakyrwsi: number;
@@ -235,6 +319,16 @@ export default function App() {
             )
           )}
       </section>
+      <Footer
+        links={
+          onomata.map((r) => {
+            return {
+              name: r.onomastiki,
+              link: `https://eauctionstats.mysolon.gr/${r?.geniki?.replaceAll(' ',"-")}`,
+            };
+          }) as { name: string; link: string }[]
+        }
+      />
     </div>
   );
 }
