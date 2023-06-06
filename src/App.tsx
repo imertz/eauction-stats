@@ -90,6 +90,7 @@ export default function App() {
     let dimos = pathArray[1]?.replaceAll("/", " ")?.replaceAll("-", " ").trim();
     if (first === "en") {
       setEnglish(true);
+      document.documentElement.lang = "en";
       dimos = pathArray[2]?.replaceAll("/", " ")?.replaceAll("-", " ").trim();
       console.log(dimos);
 
