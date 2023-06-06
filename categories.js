@@ -66,12 +66,14 @@ function getDistinctDimos() {
   const dimos = arr.map((r) => r.dimos).filter((r) => r);
   return [...new Set(dimos)];
 }
-const dimoiEnglish = getDistinctDimos().map(
-  (d) =>
-    `https://eauctionstats.mysolon.gr/${translations[
-      d.split("/").at(-1)?.replaceAll("-", " ")
-    ]?.replaceAll(" ", "-")}`
-);
+const dimoiEnglish = getDistinctDimos()
+  .filter((r) => r)
+  .map(
+    (d) =>
+      `https://eauctionstats.mysolon.gr/en/${translations[
+        d.split("/").at(-1)?.replaceAll("-", " ")
+      ]?.replaceAll(" ", "-")}`
+  );
 const allArr = [...getDistinctDimos(), ...dimoiEnglish];
 console.log(allArr);
 // Create the XML sitemap
