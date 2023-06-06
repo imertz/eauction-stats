@@ -1,12 +1,14 @@
 import React, { useEffect, useState, useMemo } from "react";
-import GlassCard from "./Components/GlassCard";
+import GlassCard, { GlassCardEnglish } from "./Components/GlassCard";
 
 import { useDebounce } from "use-debounce";
 import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
 import onomata from "./arrayOfObjects.json";
 import dataCount from "./dataCount.json";
 import Footer from "./Components/Footer";
+import translations, { translateFromEnglish } from "./translate";
 const createWorker = createWorkerFactory(() => import("./lyra"));
+const createWorkerEnglish = createWorkerFactory(() => import("./lyraEnglish"));
 
 const dateTimeAthens = (datetime: string) => {
   const date = new Date(datetime + "Z");
@@ -31,7 +33,9 @@ function convertDateString(dateString: string) {
 }
 
 export default function App() {
+  const [lastPath, setLastPath] = useState("");
   const worker = useWorker(createWorker);
+  const workerEnglish = useWorker(createWorkerEnglish);
   const [searchTerm, setSearchTerm] = React.useState("");
   const [count, setCount] = React.useState(0);
   const [data, setData] = React.useState([] as any);
@@ -42,6 +46,11 @@ export default function App() {
 
   const [results, setResults] = React.useState([] as any);
   const [english, setEnglish] = React.useState(false);
+
+  const placeholder = {
+    greek: "π.χ. κατοικια κηφισια, οικοπεδο αιγαιο, νεα σμυρνη κτλ",
+    english: "e.g. house kifisia, plot aegean, nea smyrni etc.",
+  };
 
   const handleChange = (event: { target: { value: any } }) => {
     // 👇 Get input value from "event"
@@ -68,22 +77,42 @@ export default function App() {
   const [selected, setSelected] = useState(options[0].value);
 
   useEffect(() => {
-    const dimosDash = decodeURI(window.location.pathname).split("/").pop();
-
-    const dimos = decodeURI(window.location.pathname)
-      .replaceAll("/", " ")
-      .replaceAll("-", " ")
-      .trim();
-    if (dimos === "en") {
-      setEnglish(true);
+    const pathArray = decodeURI(window.location.pathname).split("/");
+    const lastPath = pathArray[pathArray.length - 1];
+    console.log("pathArray", pathArray);
+    console.log("lastPath", lastPath);
+    console.log("lastPath", typeof lastPath);
+    if (lastPath !== "en" && lastPath !== undefined) {
+      setLastPath(lastPath);
     }
-    const onomastiki = onomata.find((o) => o.geniki === dimos);
 
-    if (onomastiki !== undefined) {
-      import(`./data/${dimosDash}/index.json`).then((math) => {
-        setData(math.default);
-        document.title = `${onomastiki.onomastiki} - Πλειστηριασμοί για ${math.default.length} ακίνητα - Οι τιμές που πωλήθηκαν.`;
-      });
+    let first = pathArray[1]?.replaceAll("/", " ")?.replaceAll("-", " ").trim();
+    let dimos = pathArray[1]?.replaceAll("/", " ")?.replaceAll("-", " ").trim();
+    if (first === "en") {
+      setEnglish(true);
+      dimos = pathArray[2]?.replaceAll("/", " ")?.replaceAll("-", " ").trim();
+      console.log(dimos);
+
+      const onomastiki = onomata.find((o) => o.english === dimos);
+      console.log(onomastiki);
+
+      if (onomastiki !== undefined) {
+        import(`./data/${onomastiki.geniki}/index.json`).then((math) => {
+          setData(math.default);
+          document.title = `${onomastiki.english} - Auctions for ${math.default.length} properties - The prices they were sold for`;
+        });
+      }
+    } else {
+      console.log(dimos);
+
+      const onomastiki = onomata.find((o) => o.geniki === dimos);
+
+      if (onomastiki !== undefined) {
+        import(`./data/${dimos}/index.json`).then((math) => {
+          setData(math.default);
+          document.title = `${onomastiki.onomastiki} - Πλειστηριασμοί για ${math.default.length} ακίνητα - Οι τιμές που πωλήθηκαν`;
+        });
+      }
     }
 
     // Access initial value from session storage
@@ -121,7 +150,12 @@ export default function App() {
   useEffect(() => {
     const lyraWorkerRun = async () => {
       if (searchTerm.length > 1) {
-        const res = await worker.hello(searchTerm);
+        let res;
+        if (!english) {
+          res = await worker.hello(searchTerm);
+        } else {
+          res = await workerEnglish.helloEnglish(searchTerm);
+        }
         setCount(res.count);
         // console.log(res);
         if (selected === "banana") {
@@ -246,21 +280,59 @@ export default function App() {
   return (
     <div className="container mx-auto px-4 py-2 ">
       {!english ? (
-        <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
-          Αναζητήστε ανάμεσα σε{" "}
-          <span className="text-blue-600 dark:text-blue-500">
-            {dataCount[0].count}
-          </span>{" "}
-          ολοκληρωμένους πλειστηριασμούς.
-        </h1>
+        <section className="section-header text-gray-600 body-font">
+          <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
+            Αναζητήστε ανάμεσα σε{" "}
+            <span className="text-blue-600 dark:text-blue-500">
+              {dataCount[0].count}
+            </span>{" "}
+            ολοκληρωμένους πλειστηριασμούς.
+          </h1>
+          <div className="choose-language">
+            <button className="language-button">
+              <img className="flag" src="/images/greece.png" />
+              <a href={`/${translateFromEnglish(lastPath)}`}>greek</a>
+            </button>
+
+            <button className="language-button">
+              <img className="flag" src="/images/usa.png" />
+              <a
+                href={`/en/${
+                  translations[lastPath] ? translations[lastPath] : ""
+                }`}
+              >
+                english
+              </a>
+            </button>
+          </div>
+        </section>
       ) : (
-        <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
-          Search among{" "}
-          <span className="text-blue-600 dark:text-blue-500">
-            {dataCount[0].count}
-          </span>{" "}
-          completed auctions.
-        </h1>
+        <section className="section-header text-gray-600 body-font">
+          <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
+            Search among{" "}
+            <span className="text-blue-600 dark:text-blue-500">
+              {dataCount[0].count}
+            </span>{" "}
+            completed auctions.
+          </h1>
+          <div className="choose-language">
+            <button className="language-button">
+              <img className="flag" src="/images/greece.png" />
+              <a href={`/${translateFromEnglish(lastPath)}`}>greek</a>
+            </button>
+
+            <button className="language-button">
+              <img className="flag" src="/images/usa.png" />
+              <a
+                href={`/en/${
+                  translations[lastPath] ? translations[lastPath] : ""
+                }`}
+              >
+                english
+              </a>
+            </button>
+          </div>
+        </section>
       )}
 
       <input
@@ -271,7 +343,7 @@ export default function App() {
         onChange={handleChange}
         defaultValue={searchTerm}
         autoFocus
-        placeholder="π.χ. κατοικια κηφισια, οικοπεδο αιγαιο, νεα σμυρνη κτλ"
+        placeholder={english ? placeholder.english : placeholder.greek}
       />
 
       <div className="max-w-xs pt-2">
@@ -287,16 +359,29 @@ export default function App() {
           ))}
         </select>
       </div>
-      <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
-        Τελευταία ενημέρωση: {dateTimeAthens(dataCount[0].date)}
-      </p>
-      {display.length > 0 && (
+      {!english && (
+        <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
+          Τελευταία ενημέρωση: {dateTimeAthens(dataCount[0].date)}
+        </p>
+      )}
+      {english && (
+        <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2">
+          Last updated: {dateTimeAthens(dataCount[0].date)}
+        </p>
+      )}
+      {!english && display.length > 0 && (
         <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2 text-center">
           Βρέθηκαν {display.length} πλειστηριασμοί
         </p>
       )}
+      {english && display.length > 0 && (
+        <p className="text-sm font-mono text-gray-50 lg:text-sm pt-2 text-center">
+          {display.length} auctions found
+        </p>
+      )}
       <section className="results">
-        {!!display.length &&
+        {!english &&
+          !!display.length &&
           display.slice(0, 50).map(
             (
               r: {
@@ -319,20 +404,61 @@ export default function App() {
               />
             )
           )}
+        {english &&
+          !!display.length &&
+          display.slice(0, 50).map(
+            (
+              r: {
+                no_katakyrwsi: number;
+                no_prwti: number;
+                xaraktiristika: string;
+                imnia: string;
+                link: string;
+              },
+              i: number
+            ) => (
+              <GlassCardEnglish
+                key={i}
+                no_katakyrwsi={r.no_katakyrwsi}
+                no_prwti={r.no_prwti}
+                xaraktiristika={r.xaraktiristika}
+                imnia={r.imnia}
+                link={r.link}
+                q={searchTerm}
+              />
+            )
+          )}
       </section>
-      <Footer
-        links={
-          onomata.map((r) => {
-            return {
-              name: r.onomastiki,
-              link: `https://eauctionstats.mysolon.gr/${r?.geniki?.replaceAll(
-                " ",
-                "-"
-              )}`,
-            };
-          }) as { name: string; link: string }[]
-        }
-      />
+      {!english && (
+        <Footer
+          links={
+            onomata.map((r) => {
+              return {
+                name: r.onomastiki,
+                link: `https://eauctionstats.mysolon.gr/${r?.geniki?.replaceAll(
+                  " ",
+                  "-"
+                )}`,
+              };
+            }) as { name: string; link: string }[]
+          }
+        />
+      )}
+      {english && (
+        <Footer
+          links={
+            onomata.map((r) => {
+              return {
+                name: r.english,
+                link: `https://eauctionstats.mysolon.gr/en/${r?.english?.replaceAll(
+                  " ",
+                  "-"
+                )}`,
+              };
+            }) as { name: string; link: string }[]
+          }
+        />
+      )}
     </div>
   );
 }

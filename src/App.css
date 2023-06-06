@@ -1,0 +1,14 @@
+button.language-button {
+  background-color: #4a5568;
+  color: #fff;
+  border: none;
+  border-radius: 0.25rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+button.language-button:hover {
+  background-color: #2d3748;
+}

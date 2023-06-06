@@ -1,6 +1,6 @@
 import { create, insertBatch, search } from "@lyrasearch/lyra";
 import { stemmer } from "@lyrasearch/lyra/dist/esm/stemmer/lib/en";
-import out from "./out.json";
+import out from "./outEnglish.json";
 const db = create({
   schema: {
     xaraktiristika: "string",
