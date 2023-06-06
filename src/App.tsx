@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useMemo } from "react";
 import GlassCard from "./Components/GlassCard";
-import { create, insertBatch, search } from "@lyrasearch/lyra";
-import { stemmer } from "@lyrasearch/lyra/dist/esm/stemmer/lib/gr";
+
 import { useDebounce } from "use-debounce";
 import { createWorkerFactory, useWorker } from "@shopify/react-web-worker";
 import onomata from "./arrayOfObjects.json";
-import dataCount from './dataCount.json'
-import Footer from "./Components/Footer"
+import dataCount from "./dataCount.json";
+import Footer from "./Components/Footer";
 const createWorker = createWorkerFactory(() => import("./lyra"));
 
 const dateTimeAthens = (datetime: string) => {
@@ -17,28 +16,6 @@ const dateTimeAthens = (datetime: string) => {
     hour12: false,
   });
 };
-
-// import Turnstone from "turnstone";
-// import out from "./out.json";
-
-// const styles = {
-//   input: "border p-2 bg-white w-full",
-//   listbox: "border p-2 bg-white w-full",
-// };
-// const db = create({
-//   schema: {
-//     xaraktiristika: "string",
-//     imnia: "string",
-//     no_katakyrwsi: "number",
-//   },
-
-//   defaultLanguage: "greek",
-//   tokenizer: {
-//     stemmingFn: stemmer,
-//   },
-// });
-
-// insertBatch(db, out as any, { batchSize: 1000, language: "greek" });
 
 function cmp(a: number | string, b: number | string) {
   if (a > b) return +1;
@@ -64,19 +41,30 @@ export default function App() {
   // const [latestSearchTerm, setLatestSearchTerm] = React.useState("");
 
   const [results, setResults] = React.useState([] as any);
+  const [english, setEnglish] = React.useState(false);
 
   const handleChange = (event: { target: { value: any } }) => {
     // 👇 Get input value from "event"
     setSearchTerm(event.target.value);
   };
 
-  const options = [
+  const optionsGreek = [
     { value: "", text: "Επιλέξτε τρόπο ταξινόμησης" },
     { value: "apple", text: "Φθίνουσα Ημερομηνία" },
     { value: "banana", text: "Αύξουσα Ημερομηνία" },
     { value: "kiwi", text: "Φθίνουσα Τιμή Κατακύρωσης" },
     { value: "orange", text: "Αύξουσα Τιμή Κατακύρωσης" },
   ];
+
+  const optionsEnglish = [
+    { value: "", text: "Select sorting method" },
+    { value: "apple", text: "Descending Date" },
+    { value: "banana", text: "Ascending Date" },
+    { value: "kiwi", text: "Descending Price" },
+    { value: "orange", text: "Ascending Price" },
+  ];
+
+  const options = english ? optionsEnglish : optionsGreek;
   const [selected, setSelected] = useState(options[0].value);
 
   useEffect(() => {
@@ -86,15 +74,16 @@ export default function App() {
       .replaceAll("/", " ")
       .replaceAll("-", " ")
       .trim();
+    if (dimos === "en") {
+      setEnglish(true);
+    }
     const onomastiki = onomata.find((o) => o.geniki === dimos);
 
     if (onomastiki !== undefined) {
       import(`./data/${dimosDash}/index.json`).then((math) => {
         setData(math.default);
         document.title = `${onomastiki.onomastiki} - Πλειστηριασμοί για ${math.default.length} ακίνητα - Οι τιμές που πωλήθηκαν.`;
-
       });
-
     }
 
     // Access initial value from session storage
@@ -256,11 +245,23 @@ export default function App() {
   const display = !!results.length ? results : data;
   return (
     <div className="container mx-auto px-4 py-2 ">
-      <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
-        Αναζητήστε ανάμεσα σε{" "}
-        <span className="text-blue-600 dark:text-blue-500">{dataCount[0].count}</span>{" "}
-        ολοκληρωμένους πλειστηριασμούς.
-      </h1>
+      {!english ? (
+        <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
+          Αναζητήστε ανάμεσα σε{" "}
+          <span className="text-blue-600 dark:text-blue-500">
+            {dataCount[0].count}
+          </span>{" "}
+          ολοκληρωμένους πλειστηριασμούς.
+        </h1>
+      ) : (
+        <h1 className="mb-4 text-xl font-bold tracking-tight leading-none text-gray-100 md:text-4xl lg:text-4xl dark:text-white">
+          Search among{" "}
+          <span className="text-blue-600 dark:text-blue-500">
+            {dataCount[0].count}
+          </span>{" "}
+          completed auctions.
+        </h1>
+      )}
 
       <input
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
@@ -324,7 +325,10 @@ export default function App() {
           onomata.map((r) => {
             return {
               name: r.onomastiki,
-              link: `https://eauctionstats.mysolon.gr/${r?.geniki?.replaceAll(' ',"-")}`,
+              link: `https://eauctionstats.mysolon.gr/${r?.geniki?.replaceAll(
+                " ",
+                "-"
+              )}`,
             };
           }) as { name: string; link: string }[]
         }

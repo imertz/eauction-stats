@@ -1,372 +1,464 @@
 [
   {
     "onomastiki": "Νέα Σμύρνη",
-    "geniki": "Νέας Σμύρνης"
+    "geniki": "Νέας Σμύρνης",
+    "english": "Nea Smyrni"
   },
   {
     "onomastiki": "Αθήνα",
-    "geniki": "Αθηναίων"
+    "geniki": "Αθηναίων",
+    "english": "Athens"
   },
   {
     "onomastiki": "Φλώρινα",
-    "geniki": "Φλώρινας"
+    "geniki": "Φλώρινας",
+    "english": "Florina"
   },
   {
     "onomastiki": "Ηλιούπολη",
-    "geniki": "Ηλιουπόλεως"
+    "geniki": "Ηλιουπόλεως",
+    "english": "Ilioupoli"
   },
   {
     "onomastiki": "Κηφισιά",
-    "geniki": "Κηφισιάς"
+    "geniki": "Κηφισιάς",
+    "english": "Kifisia"
   },
   {},
   {
     "onomastiki": "Θεσσαλονίκη",
-    "geniki": "Θεσσαλονίκης"
+    "geniki": "Θεσσαλονίκης",
+    "english": "Thessaloniki"
   },
   {
     "onomastiki": "Σάμος",
-    "geniki": "Σάμου"
+    "geniki": "Σάμου",
+    "english": "Samos"
   },
   {
     "onomastiki": "Μύκονος",
-    "geniki": "Μυκόνου"
+    "geniki": "Μυκόνου",
+    "english": "Mykonos"
   },
   {
     "onomastiki": "Καρδίτσα",
-    "geniki": "Καρδίτσας"
+    "geniki": "Καρδίτσας",
+    "english": "Karditsa"
   },
   {
     "onomastiki": "Ρέθυμνο",
-    "geniki": "Ρεθύμνης"
+    "geniki": "Ρεθύμνης",
+    "english": "Rethymno"
   },
   {
     "onomastiki": "Κώς",
-    "geniki": "Κώ"
+    "geniki": "Κώ",
+    "english": "Kos"
   },
   {
     "onomastiki": "Πύργος",
-    "geniki": "Πύργου"
+    "geniki": "Πύργου",
+    "english": "Pyrgos"
   },
   {
     "onomastiki": "Λευκάδα",
-    "geniki": "Λευκάδος"
+    "geniki": "Λευκάδος",
+    "english": "Lefkada"
   },
   {
     "onomastiki": "Σαρωνικός",
-    "geniki": "Σαρωνικού"
+    "geniki": "Σαρωνικού",
+    "english": "Saronikos"
   },
   {
     "onomastiki": "Φιλαδέλφεια",
-    "geniki": "Φιλαδέλφειας"
+    "geniki": "Φιλαδέλφειας",
+    "english": "Philadelphia"
   },
   {
     "onomastiki": "Παλαιό Φάληρο",
-    "geniki": "Παλαιού Φαλήρου"
+    "geniki": "Παλαιού Φαλήρου",
+    "english": "Palaio Faliro"
   },
   {
     "onomastiki": "Άκτιο",
-    "geniki": "Άκτιου"
+    "geniki": "Άκτιου",
+    "english": "Aktio"
   },
   {
     "onomastiki": "Πλατανιάς",
-    "geniki": "Πλατανιά"
+    "geniki": "Πλατανιά",
+    "english": "Platanias"
   },
   {
     "onomastiki": "Ηγουμενίτσα",
-    "geniki": "Ηγουμενίτσας"
+    "geniki": "Ηγουμενίτσας",
+    "english": "Igoumenitsa"
   },
   {
     "onomastiki": "Θάσος",
-    "geniki": "Θάσου"
+    "geniki": "Θάσου",
+    "english": "Thasos"
   },
   {
     "onomastiki": "Αχαρνές",
-    "geniki": "Αχαρνών"
+    "geniki": "Αχαρνών",
+    "english": "Acharnes"
   },
   {
     "onomastiki": "Νίκαια",
-    "geniki": "Νικαίας"
+    "geniki": "Νικαίας",
+    "english": "Nikaia"
   },
   {
     "onomastiki": "Κάρυστος",
-    "geniki": "Καρύστου"
+    "geniki": "Καρύστου",
+    "english": "Karystos"
   },
   {
     "onomastiki": "Πηνειός",
-    "geniki": "Πηνειού"
+    "geniki": "Πηνειού",
+    "english": "Peneios"
   },
   {
     "onomastiki": "Παύλος Μελάς",
-    "geniki": "Παύλου Μελά"
+    "geniki": "Παύλου Μελά",
+    "english": "Pavlos Melas"
   },
   {
     "onomastiki": "Ωραιόκαστρο",
-    "geniki": "Ωραιοκάστρου"
+    "geniki": "Ωραιοκάστρου",
+    "english": "Oraiokastro"
   },
   {
     "onomastiki": "Άρτα",
-    "geniki": "Αρταίων"
+    "geniki": "Αρταίων",
+    "english": "Arta"
   },
   {
     "onomastiki": "Κερατσίνι",
-    "geniki": "Κερατσινίου"
+    "geniki": "Κερατσινίου",
+    "english": "Keratsini"
   },
   {
     "onomastiki": "Κασσάνδρα",
-    "geniki": "Κασσάνδρας"
+    "geniki": "Κασσάνδρας",
+    "english": "Kassandra"
   },
   {
     "onomastiki": "Αιγάλεω",
-    "geniki": "Αιγάλεω"
+    "geniki": "Αιγάλεω",
+    "english": "Aigaleo"
   },
   {
     "onomastiki": "Σιθωνία",
-    "geniki": "Σιθωνίας"
+    "geniki": "Σιθωνίας",
+    "english": "Sithonia"
   },
   {
     "onomastiki": "Πειραιάς",
-    "geniki": "Πειραιώς"
+    "geniki": "Πειραιώς",
+    "english": "Piraeus"
   },
   {
     "onomastiki": "Φυλή",
-    "geniki": "Φυλής"
+    "geniki": "Φυλής",
+    "english": "Fyli"
   },
   {
     "onomastiki": "Πάτρα",
-    "geniki": "Πατρέων"
+    "geniki": "Πατρέων",
+    "english": "Patra"
   },
   {
     "onomastiki": "Αίγινα",
-    "geniki": "Αίγινας"
+    "geniki": "Αίγινας",
+    "english": "Aegina"
   },
   {
     "onomastiki": "Ηράκλειο",
-    "geniki": "Ηρακλείου"
+    "geniki": "Ηρακλείου",
+    "english": "Heraklion"
   },
   {
     "onomastiki": "Νέα Ιωνία",
-    "geniki": "Νέας Ιωνίας"
+    "geniki": "Νέας Ιωνίας",
+    "english": "Nea Ionia"
   },
   {
     "onomastiki": "Χαλάνδρι",
-    "geniki": "Χαλανδρίου"
+    "geniki": "Χαλανδρίου",
+    "english": "Chalandri"
   },
   {
     "onomastiki": "Λαμία",
-    "geniki": "Λαμιέων"
+    "geniki": "Λαμιέων",
+    "english": "Lamia"
   },
   {
     "onomastiki": "Χαλκίδα",
-    "geniki": "Χαλκιδέων"
+    "geniki": "Χαλκιδέων",
+    "english": "Chalkida"
   },
   {
     "onomastiki": "Κορωπί",
-    "geniki": "Κρωπίας"
+    "geniki": "Κρωπίας",
+    "english": "Koropi"
   },
   {
     "onomastiki": "Λάρισα",
-    "geniki": "Λαρισαίων"
+    "geniki": "Λαρισαίων",
+    "english": "Larissa"
   },
   {
     "onomastiki": "Νέα Προποντίδα",
-    "geniki": "Νέας Προποντίδας"
+    "geniki": "Νέας Προποντίδας",
+    "english": "Nea Propontida"
   },
   {
     "onomastiki": "Παγγαίο",
-    "geniki": "Παγγαίου"
+    "geniki": "Παγγαίου",
+    "english": "Pangaio"
   },
   {
     "onomastiki": "Βόρεια Κυνουρία",
-    "geniki": "Βόρειας Κυνουρίας"
+    "geniki": "Βόρειας Κυνουρίας",
+    "english": "Voreia Kynouria"
   },
   {
     "onomastiki": "Νάξος",
-    "geniki": "Νάξου & Μικρών Κυκλάδων"
+    "geniki": "Νάξου & Μικρών Κυκλάδων",
+    "english": "Naxos & Small Cyclades"
   },
   {
     "onomastiki": "Λειβαδιά",
-    "geniki": "Λεβαδέων"
+    "geniki": "Λεβαδέων",
+    "english": "Livadeia"
   },
   {
     "onomastiki": "Μαλεβίζι",
-    "geniki": "Μαλεβιζίου"
+    "geniki": "Μαλεβιζίου",
+    "english": "Malevizi"
   },
   {
     "onomastiki": "Φιλοθέη",
-    "geniki": "Φιλοθέης"
+    "geniki": "Φιλοθέης",
+    "english": "Filothei"
   },
   {
     "onomastiki": "Καλαμάτα",
-    "geniki": "Καλαμάτας"
+    "geniki": "Καλαμάτας",
+    "english": "Kalamata"
   },
   {
     "onomastiki": "Πυλαία",
-    "geniki": "Πυλαίας"
+    "geniki": "Πυλαίας",
+    "english": "Pylaia"
   },
   {
     "onomastiki": "Άλιμος",
-    "geniki": "Αλίμου"
+    "geniki": "Αλίμου",
+    "english": "Alimos"
   },
   {
     "onomastiki": "Ηράκλειο",
-    "geniki": "Ηρακλείου ΚΡΗΤΗΣ"
+    "geniki": "Ηρακλείου ΚΡΗΤΗΣ",
+    "english": "Heraklion Crete"
   },
   {
     "onomastiki": "Νέαπολη",
-    "geniki": "Νέαπολης"
+    "geniki": "Νέαπολης",
+    "english": "Neapoli"
   },
   {
     "onomastiki": "Μαρκόπουλο",
-    "geniki": "Μαρκοπούλου Μεσογαίας"
+    "geniki": "Μαρκοπούλου Μεσογαίας",
+    "english": "Markopoulo Mesogaias"
   },
   {
     "onomastiki": "Ωρωπός",
-    "geniki": "Ωρωπού"
+    "geniki": "Ωρωπού",
+    "english": "Oropos"
   },
   {
     "onomastiki": "Ασπρόπυργος",
-    "geniki": "Ασπροπύργου"
+    "geniki": "Ασπροπύργου",
+    "english": "Aspropyrgos"
   },
   {
     "onomastiki": "Σπάτα",
-    "geniki": "Σπάτων"
+    "geniki": "Σπάτων",
+    "english": "Spata"
   },
   {
     "onomastiki": "Ίλιο",
-    "geniki": "Ιλίου"
+    "geniki": "Ιλίου",
+    "english": "Ilio"
   },
   {
     "onomastiki": "Βάρη",
-    "geniki": "Βάρης"
+    "geniki": "Βάρης",
+    "english": "Vari"
   },
   {
     "onomastiki": "Αλμωπία",
-    "geniki": "Αλμωπίας"
+    "geniki": "Αλμωπίας",
+    "english": "Almopia"
   },
   {
     "onomastiki": "Σπέτσες",
-    "geniki": "Σπετσών"
+    "geniki": "Σπετσών",
+    "english": "Spetses"
   },
   {
     "onomastiki": "Παλλήνη",
-    "geniki": "Παλλήνης"
+    "geniki": "Παλλήνης",
+    "english": "Pallini"
   },
   {
     "onomastiki": "Ρόδος",
-    "geniki": "Ρόδου"
+    "geniki": "Ρόδου",
+    "english": "Rhodes"
   },
   {
     "onomastiki": "Άγιος Δημήτριος",
-    "geniki": "Αγίου Δημητρίου"
+    "geniki": "Αγίου Δημητρίου",
+    "english": "Agios Dimitrios"
   },
   {
     "onomastiki": "Δέλτα",
-    "geniki": "Δέλτα"
+    "geniki": "Δέλτα",
+    "english": "Delta"
   },
   {
     "onomastiki": "Ζωγράφου",
-    "geniki": "Ζωγράφου"
+    "geniki": "Ζωγράφου",
+    "english": "Zografou"
   },
   {
     "onomastiki": "Ξάνθη",
-    "geniki": "Ξάνθης"
+    "geniki": "Ξάνθης",
+    "english": "Xanthi"
   },
   {
     "onomastiki": "Βόλος",
-    "geniki": "Βόλου"
+    "geniki": "Βόλου",
+    "english": "Volos"
   },
   {
     "onomastiki": "Λίμνη Πλαστήρα",
-    "geniki": "Λίμνης Πλαστήρα"
+    "geniki": "Λίμνης Πλαστήρα",
+    "english": "Limni Plastira"
   },
   {
     "onomastiki": "Αποκορώνας",
-    "geniki": "Αποκορώνου"
+    "geniki": "Αποκορώνου",
+    "english": "Apokoronas"
   },
   {
     "onomastiki": "Δάφνη",
-    "geniki": "Δάφνης"
+    "geniki": "Δάφνης",
+    "english": "Dafni"
   },
   {
     "onomastiki": "Κόρινθος",
-    "geniki": "Κορινθίων"
+    "geniki": "Κορινθίων",
+    "english": "Corinth"
   },
   {
     "onomastiki": "Καστοριά",
-    "geniki": "Καστοριάς"
+    "geniki": "Καστοριάς",
+    "english": "Kastoria"
   },
   {
     "onomastiki": "Πετρούπολη",
-    "geniki": "Πετρούπολης"
+    "geniki": "Πετρούπολης",
+    "english": "Petroupoli"
   },
   {
     "onomastiki": "Καλλιθέα",
-    "geniki": "Καλλιθέας"
+    "geniki": "Καλλιθέας",
+    "english": "Kallithea"
   },
   {
     "onomastiki": "Νικολάου Σκουφά",
-    "geniki": "Νικολάου Σκουφά"
+    "geniki": "Νικολάου Σκουφά",
+    "english": "Nikolaou Skoufa"
   },
   {
     "onomastiki": "Παπάγου",
-    "geniki": "Παπάγου"
+    "geniki": "Παπάγου",
+    "english": "Papagou"
   },
   {
     "onomastiki": "Σικυωνίες",
-    "geniki": "Σικυωνίων"
+    "geniki": "Σικυωνίων",
+    "english": "Sicyonies"
   },
   {
     "onomastiki": "Βύρωνας",
-    "geniki": "Βύρωνος"
+    "geniki": "Βύρωνος",
+    "english": "Vyronas"
   },
   {
     "onomastiki": "Θερμαϊκός",
-    "geniki": "Θερμαϊκού"
+    "geniki": "Θερμαϊκού",
+    "english": "Thermaikos"
   },
   {
     "onomastiki": "Μέγαρα",
-    "geniki": "Μεγαρέων"
+    "geniki": "Μεγαρέων",
+    "english": "Megara"
   },
   {
     "onomastiki": "Κάρπαθος",
-    "geniki": "Καρπάθου"
+    "geniki": "Καρπάθου",
+    "english": "Karpathos"
   },
   {
     "onomastiki": "Αγρίνιο",
-    "geniki": "Αγρινίου"
+    "geniki": "Αγρινίου",
+    "english": "Agrinio"
   },
   {
     "onomastiki": "Κέρκυρα",
-    "geniki": "Κέρκυρας"
+    "geniki": "Κέρκυρας",
+    "english": "Corfu"
   },
   {
     "onomastiki": "Κομοτηνή",
-    "geniki": "Κομοτηνής"
+    "geniki": "Κομοτηνής",
+    "english": "Komotini"
   },
   {
     "onomastiki": "Άγιοι Ανάργυροι",
-    "geniki": "Αγίων Αναργύρων"
+    "geniki": "Αγίων Αναργύρων",
+    "english": "Agioi Anargyroi"
   },
   {
     "onomastiki": "Καβάλα",
-    "geniki": "Καβάλας"
+    "geniki": "Καβάλας",
+    "english": "Kavala"
   },
   {
     "onomastiki": "Δίον",
-    "geniki": "Δίου"
+    "geniki": "Δίου",
+    "english": "Dion"
   },
   {
     "onomastiki": "Χανιά",
-    "geniki": "Χανίων"
+    "geniki": "Χανίων",
+    "english": "Chania"
   },
   {
     "onomastiki": "Αιγιαλεία",
-    "geniki": "Αιγιαλείας"
+    "geniki": "Αιγιαλείας",
+    "english": "Aigialeia"
   },
   {
     "onomastiki": "Ναύπλιο",
-    "geniki": "Ναυπλιέων"
+    "geniki": "Ναυπλιέων",
+    "english": "Nafplio"
   },
   {
     "onomastiki": "Λυκόβρυση",
